@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="Day la fragment phu kien xe may"/>
-</android.support.constraint.ConstraintLayout>
+    <ListView
+        android:id="@+id/lvDsSanPhamPK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+<!--
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>-->
+</LinearLayout>
