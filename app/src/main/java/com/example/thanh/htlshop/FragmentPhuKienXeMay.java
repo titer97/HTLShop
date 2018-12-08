@@ -1,5 +1,6 @@
 package com.example.thanh.htlshop;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,12 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.thanh.htlshop.Adapter.AdapterSanPham;
+import com.example.thanh.Adapter.AdapterSanPham;
 import com.example.thanh.model.SanPham;
 
 import org.json.JSONArray;
@@ -34,13 +30,23 @@ public class FragmentPhuKienXeMay extends Fragment {
     AdapterSanPham adapterSanPham;
     RecyclerView recyclerview1;
 
+    public interface GuiDuLieuTuPKXMQuaMain{
+        void guiDuLieu2(SanPham sanPham);
+    }
+
+    GuiDuLieuTuPKXMQuaMain guiDuLieuTuPKXMQuaMain;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        guiDuLieuTuPKXMQuaMain = (GuiDuLieuTuPKXMQuaMain) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_phu_kien_xe_may, container, false);
         addControls(view);
-
-
         return view;
     }
 
@@ -48,6 +54,12 @@ public class FragmentPhuKienXeMay extends Fragment {
         lvDsSanPhamPK = view.findViewById(R.id.lvDsSanPhamPK);
         sanPhams = new ArrayList<>();
         adapterSanPham = new AdapterSanPham(getActivity(), R.layout.dong_listview_sanpham, sanPhams);
+        adapterSanPham.setListener(new AdapterSanPham.AdapterListener() {
+            @Override
+            public void guiDulieu(SanPham sanPham) {
+                guiDuLieuTuPKXMQuaMain.guiDuLieu2(sanPham);
+            }
+        });
         lvDsSanPhamPK.setAdapter(adapterSanPham);
         DanhSachSanPhamTask task = new DanhSachSanPhamTask();
         task.execute();

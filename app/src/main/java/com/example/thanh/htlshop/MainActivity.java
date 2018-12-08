@@ -23,8 +23,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.thanh.model.SanPham;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentPhuKienXeMay.GuiDuLieuTuPKXMQuaMain {
 
     private FragmentManager fragmentManager;
     private MenuItem itemDangNhap;
@@ -184,6 +186,17 @@ public class MainActivity extends AppCompatActivity
             //nếu có lưu dữ liệu
             itemDangNhap.setTitle("Đăng xuất");
         }
+    }
+
+    @Override
+    public void guiDuLieu2(SanPham sanPham) {
+        Bundle bundle= new Bundle();
+        bundle.putSerializable("SANPHAM",sanPham);
+        FragmentChiTietSP chiTietSP = new FragmentChiTietSP();
+        chiTietSP.setArguments(bundle);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_context,chiTietSP);
+        transaction.commit();
     }
 
    /* @Override
