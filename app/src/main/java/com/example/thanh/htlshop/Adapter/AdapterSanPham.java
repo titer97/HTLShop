@@ -1,24 +1,17 @@
 package com.example.thanh.htlshop.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thanh.htlshop.R;
-import com.example.thanh.htlshop.model.SanPham;
+import com.example.thanh.model.SanPham;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterSanPham extends ArrayAdapter<SanPham> {

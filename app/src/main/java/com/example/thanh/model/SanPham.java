@@ -1,4 +1,4 @@
-package com.example.thanh.htlshop.model;
+package com.example.thanh.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -16,9 +16,6 @@ public class SanPham  implements Serializable {
     private String ngayCapNhat;
     private int slBanRa;
     private String tongDanhGia;
-
-
-
 
     @Override
     public String toString() {
