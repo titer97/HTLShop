@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.thanh.Adapter.AdapterSanPham;
+import com.example.thanh.adapter.AdapterSanPham;
 import com.example.thanh.model.SanPham;
 
 import org.json.JSONArray;

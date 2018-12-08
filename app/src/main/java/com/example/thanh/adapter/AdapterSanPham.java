@@ -1,4 +1,4 @@
-package com.example.thanh.Adapter;
+package com.example.thanh.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.PopupMenu;
@@ -22,7 +22,6 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
     Activity context;
     int resource;
     List<SanPham> objects;
-    SanPham sanPham;
     private AdapterListener mListener;
     public  interface AdapterListener{
         void guiDulieu(SanPham sanPham);
@@ -46,7 +45,7 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
         TextView txtTen=row.findViewById(R.id.txtTenSanPham);
         TextView txtGia=row.findViewById(R.id.txtGiaSanPham);
         ImageView imgHinh=row.findViewById(R.id.imgView);
-        sanPham=this.objects.get(position);
+        final SanPham sanPham=this.objects.get(position);
         txtTen.setText(sanPham.getTenSp());
         txtGia.setText(sanPham.getGiaBan()+""); //cai nao tra ve so int thi them "" vao. neu ko them no hieu la id, ko co id thi loi, them vao thi no se thanh` chuoi~ String
         Picasso.with(context).load(sanPham.getAnhBia()).placeholder(R.drawable.dienthoai).error(R.drawable.facebook).into(imgHinh);
