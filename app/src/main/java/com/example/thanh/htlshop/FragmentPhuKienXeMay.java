@@ -22,7 +22,6 @@ public class FragmentPhuKienXeMay extends Fragment {
     }
 
     private void addControls(View view) {
-        txtText = view.findViewById(R.id.textView);
 
     }
 }
