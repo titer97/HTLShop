@@ -10,13 +10,18 @@
             android:checked="true"
             android:title="Phụ kiện xe máy" />
         <item
+            android:id="@+id/nav_danh_muc"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Danh mục sản phẩm" />
+        <item
             android:id="@+id/nav_gio_hang"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Giỏ hàng" />
         <item
-            android:id="@+id/nav_tim_kiem"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Tìm kiếm" />
+        android:id="@+id/nav_tim_kiem"
+        android:icon="@drawable/ic_menu_slideshow"
+        android:title="Tìm kiếm" />
+
     </group>
 
     <item android:title="Tài khoản">

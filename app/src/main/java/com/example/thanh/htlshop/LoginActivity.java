@@ -295,11 +295,11 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             for (TaiKhoan tk2 : listTaiKhoan) {
-                String username = tk2.getUsername();
-                String password = tk2.getPassword();
-                if (username.equals(mUsername) && password.equals(mPassword)) {
-                    return true;
-                }
+                    String username = tk2.getUsername();
+                    String password = tk2.getPassword();
+                    if (username.equals(mUsername) && password.equals(mPassword)) {
+                        return true;
+                    }
             }
             return false;
         }

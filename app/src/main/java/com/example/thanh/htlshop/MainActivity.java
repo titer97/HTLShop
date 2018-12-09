@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.thanh.model.DanhMuc;
 import com.example.thanh.model.SanPham;
 
 public class MainActivity extends AppCompatActivity
@@ -109,7 +110,13 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.main_context, fragmentPhuKienXeMay);
             transaction.commit();
-        } else if (id == R.id.nav_gio_hang) {
+        }
+        else if (id == R.id.nav_danh_muc) {
+            FragmentDanhMucSanPham fragmentDanhMucSanPham = new FragmentDanhMucSanPham();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.main_context, fragmentDanhMucSanPham);
+            transaction.commit();
+        }else if (id == R.id.nav_gio_hang) {
             FragmentHoaDon fragmentHoaDon = new FragmentHoaDon();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.main_context, fragmentHoaDon);
@@ -199,6 +206,14 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
+    public void guiDuLieuDM(DanhMuc danhMuc) {
+        Bundle bundle= new Bundle();
+        bundle.putSerializable("DANHMUC",danhMuc);
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.commit();
+    }
    /* @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
