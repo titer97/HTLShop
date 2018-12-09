@@ -15,18 +15,16 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:layout_gravity="top|right"
-            android:src="@drawable/dienthoai"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical">
+
 
             <ImageButton
                 android:id="@+id/btnMenuSanPham"
@@ -34,27 +32,53 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:src="@drawable/ic_menu_popup"/>
-            <ImageView
+
+            <!--<ImageView
+>>>>>>> Stashed changes
                 android:id="@+id/imgView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp" />-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+             <ImageView
+                   android:src="@drawable/heart"
+                   android:layout_width="85dp"
+                   android:layout_height="100dp"
+                   android:layout_margin="5dp" />
 
-            <TextView
-                android:id="@+id/txtTenSanPham"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Tên sản phẩm"
-                android:textSize="20sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtGiaSanPham"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="123"
-                android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/txtTenSanPham"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Tên sản phẩm"
+                        android:textSize="20sp"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:id="@+id/txtGiaSanPham"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:hint="123"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </FrameLayout>
 

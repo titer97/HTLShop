@@ -28,7 +28,7 @@ public class FragmentPhuKienXeMay extends Fragment {
     ListView lvDsSanPhamPK;
     ArrayList<SanPham> sanPhams;
     AdapterSanPham adapterSanPham;
-    RecyclerView recyclerview1;
+
 
     public interface GuiDuLieuTuPKXMQuaMain{
         void guiDuLieu2(SanPham sanPham);
