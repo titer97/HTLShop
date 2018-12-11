@@ -251,8 +251,9 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mUsername;
         private final String mPassword;
+        private int mMaKh;
 
-        UserLoginTask(String username, String password) {
+        UserLoginTask(String username, String password ){
             mUsername = username;
             mPassword = password;
         }
@@ -297,6 +298,7 @@ public class LoginActivity extends AppCompatActivity {
             for (TaiKhoan tk2 : listTaiKhoan) {
                     String username = tk2.getUsername();
                     String password = tk2.getPassword();
+                    mMaKh = tk2.getMakh();
                     if (username.equals(mUsername) && password.equals(mPassword)) {
                         return true;
                     }
@@ -310,7 +312,7 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                moMainActivity(mUsername, mPassword);
+                moMainActivity(mUsername, mPassword,mMaKh);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -324,10 +326,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void moMainActivity(String username, String password) {
+    private void moMainActivity(String username, String password,int makh) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("username", username);
         returnIntent.putExtra("password", password);
+        returnIntent.putExtra("makh",makh);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }

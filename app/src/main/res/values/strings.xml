@@ -23,4 +23,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gio_hang">Giỏ hàng của bạn:</string>
+    <string name="xoa_gio_hang">Xóa giỏ hàng</string>
+    <string name="dat_hang">Đặt hàng</string>
 </resources>

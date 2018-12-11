@@ -1,6 +1,8 @@
 package com.example.thanh.htlshop;
 
-import android.net.Uri;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,32 +12,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.thanh.model.ChiTietHoaDon;
+import com.example.thanh.model.MyDatabaseHelper;
 import com.example.thanh.model.SanPham;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import android.net.Uri;
+import android.widget.Toast;
+
 public class FragmentChiTietSP extends Fragment {
+
     private StorageReference mStorageRef;
+    private String FileName = "UsernameAndPassword";
+    private int maKh;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chi_tiet_sp,container,false);
+        View view = inflater.inflate(R.layout.fragment_chi_tiet_sp, container, false);
         TextView txtTenSanPham = view.findViewById(R.id.txtTenSanPham);
         final ImageView imgHinhsp = view.findViewById(R.id.imgHinh);
         TextView txtGiaBan = view.findViewById(R.id.txtGiaban);
         TextView txtBaohanh = view.findViewById(R.id.txtBaohanh);
         TextView txtMota = view.findViewById(R.id.txtMota);
         TextView txtSlt = view.findViewById(R.id.txtSoluongton);
+        ImageButton btnThemVaoGioHang = view.findViewById(R.id.btnThemGioHang);
 
+        docUsernamePassword();
         Bundle bundle = getArguments();
-        SanPham sp = (SanPham) bundle.getSerializable("SANPHAM");
+        final SanPham sp = (SanPham) bundle.getSerializable("SANPHAM");
         txtTenSanPham.setText(sp.getTenSp());
         txtGiaBan.setText(String.valueOf(sp.getGiaBan()) + " VNĐ");
         txtSlt.setText(String.valueOf(sp.getSoLuongTon()));
@@ -62,14 +77,35 @@ public class FragmentChiTietSP extends Fragment {
                 imgHinhsp.setImageResource(R.drawable.ic_error_outline_black_24dp);
             }
         });
+        final MyDatabaseHelper db = new MyDatabaseHelper(getContext());
+        btnThemVaoGioHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChiTietHoaDon cthd = new ChiTietHoaDon();
+                cthd.setMasp(sp.getMaSp());
+                cthd.setDongia(sp.getGiaBan());
+                cthd.setSoluong(1);
+                cthd.setMakh(maKh);
+                db.themChiTietHoaDon(cthd);
+                Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
-    public boolean allowBackPressed(){
+
+    public boolean allowBackPressed() {
         FragmentPhuKienXeMay phuKienXeMay = new FragmentPhuKienXeMay();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_context,phuKienXeMay);
+        transaction.replace(R.id.main_context, phuKienXeMay);
         transaction.commit();
         return true;
     }
+
+    private void docUsernamePassword() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FileName, Context.MODE_PRIVATE);
+        int defaultValue3 = 999;
+        maKh = sharedPreferences.getInt("makh", defaultValue3);
+    }
+
 }

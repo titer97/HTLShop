@@ -61,8 +61,7 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
 
         final SanPham sanPham = this.objects.get(position);
         txtTen.setText(sanPham.getTenSp());
-        txtGia.setText(sanPham.getGiaBan() + " VNĐ"); //cai nao tra ve so int thi them "" vao. neu ko them no hieu la id, ko co id thi loi, them vao thi no se thanh` chuoi~ String
-        //Picasso.with(context).load(sanPham.getAnhBia()).placeholder(R.drawable.dienthoai).error(R.drawable.facebook).into(imgHinh);
+        txtGia.setText(sanPham.getGiaBan() + " VNĐ");
         final ImageView imgHinh = row.findViewById(R.id.imgHinh);
         ImageButton btnMenu = row.findViewById(R.id.btnMenuSanPham);
         btnMenu.setOnClickListener(new View.OnClickListener() {

@@ -42,7 +42,6 @@ public class FragmentDanhMucSanPham extends Fragment {
     }
 
 
-
     private void addControls(View view) {
         lvDanhMuc = view.findViewById(R.id.lvDanhMuc);
         adapterDanhMuc = new ArrayAdapter<DanhMuc>(getActivity(), android.R.layout.simple_list_item_1);
@@ -52,15 +51,16 @@ public class FragmentDanhMucSanPham extends Fragment {
         DanhSachDanhMucTask task = new DanhSachDanhMucTask();
         task.execute();
     }
+
     private void addEvents() {
         lvDanhMuc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle x = new Bundle();
-                x.putInt("loaisp",position+1);
+                x.putInt("loaisp", position + 1);
 
                 FragmetSanPhamTheoDanhMuc fragmetSanPhamTheoDanhMuc = new FragmetSanPhamTheoDanhMuc();
-                FragmentManager fragmentManager =   getFragmentManager();
+                FragmentManager fragmentManager = getFragmentManager();
                 fragmetSanPhamTheoDanhMuc.setArguments(x);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_context, fragmetSanPhamTheoDanhMuc);
@@ -68,6 +68,7 @@ public class FragmentDanhMucSanPham extends Fragment {
             }
         });
     }
+
     class DanhSachDanhMucTask extends AsyncTask<Void, Void, ArrayList<DanhMuc>> {
         @Override
         protected void onPreExecute() {

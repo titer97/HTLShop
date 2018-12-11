@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.thanh.model.DanhMuc;
+import com.example.thanh.model.MyDatabaseHelper;
 import com.example.thanh.model.SanPham;
 
 public class MainActivity extends AppCompatActivity
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private String usernameHienTai;
     private String passwordHienTai;
     private TextView txtEmail;
+    private String FileName = "UsernameAndPassword";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        String a = "123";
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity
         itemDangNhap = menuNav.findItem(R.id.nav_dang_nhap);
 
         docUsernamePassword();
+        MyDatabaseHelper db = new MyDatabaseHelper(this);
+
 
         View header_view = navigationView.getHeaderView(0);
         txtEmail = header_view.findViewById(R.id.txtEmail);
@@ -73,9 +76,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.main_context, fragmentPhuKienXeMay);
         transaction.commit();
-    }
 
-    private String FileName = "UsernameAndPassword";
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,9 +119,9 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.main_context, fragmentDanhMucSanPham);
             transaction.commit();
         }else if (id == R.id.nav_gio_hang) {
-            FragmentHoaDon fragmentHoaDon = new FragmentHoaDon();
+            FragmentGioHang fragmentGioHang = new FragmentGioHang();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.main_context, fragmentHoaDon);
+            transaction.replace(R.id.main_context, fragmentGioHang);
             transaction.commit();
         } else if (id == R.id.nav_tim_kiem) {
             FragmentTimKiem fragmentTimKiem = new FragmentTimKiem();
@@ -165,18 +167,20 @@ public class MainActivity extends AppCompatActivity
             if (resultCode == Activity.RESULT_OK) {
                 String mUsername = data.getStringExtra("username");
                 String mPassword = data.getStringExtra("password");
-                luuUsernamePassword(mUsername, mPassword);
+                int mMaKh = data.getIntExtra("makh",999);
+                luuUsernamePassword(mUsername, mPassword,mMaKh);
                 itemDangNhap.setTitle("Đăng xuất");
                 txtEmail.setText(mUsername);
             }
         }
     }
 
-    private void luuUsernamePassword(String mUsername, String mPassword) {
+    private void luuUsernamePassword(String mUsername, String mPassword,int mMaKh) {
         SharedPreferences sharedPreferences = getSharedPreferences(FileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", mUsername);
         editor.putString("password", mPassword);
+        editor.putInt("makh", mMaKh);
         editor.apply();
     }
 
@@ -212,6 +216,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.commit();
     }
+
    @Override
     public void onBackPressed() {
        final FragmentChiTietSP chiTietSP = (FragmentChiTietSP) getSupportFragmentManager().findFragmentByTag("BACK_TAG");
