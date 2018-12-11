@@ -29,7 +29,6 @@ public class FragmentPhuKienXeMay extends Fragment {
     ArrayList<SanPham> sanPhams;
     AdapterSanPham adapterSanPham;
 
-
     public interface GuiDuLieuTuPKXMQuaMain{
         void guiDuLieu2(SanPham sanPham);
     }

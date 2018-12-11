@@ -28,7 +28,7 @@ import com.example.thanh.model.MyDatabaseHelper;
 import com.example.thanh.model.SanPham;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentPhuKienXeMay.GuiDuLieuTuPKXMQuaMain {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentPhuKienXeMay.GuiDuLieuTuPKXMQuaMain , FragmetSanPhamTheoDanhMuc.GuiDuLieuTuSpTheoDanhMucQuaMain{
 
     private FragmentManager fragmentManager;
     private MenuItem itemDangNhap;
@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
+<<<<<<< Updated upstream
     public void guiDuLieuDM(DanhMuc danhMuc) {
         Bundle bundle= new Bundle();
         bundle.putSerializable("DANHMUC",danhMuc);
@@ -217,6 +218,8 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
+=======
+>>>>>>> Stashed changes
    @Override
     public void onBackPressed() {
        final FragmentChiTietSP chiTietSP = (FragmentChiTietSP) getSupportFragmentManager().findFragmentByTag("BACK_TAG");
@@ -224,5 +227,16 @@ public class MainActivity extends AppCompatActivity
        if (chiTietSP.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
            super.onBackPressed();
        }
+    }
+
+    @Override
+    public void guiDuLieu3(SanPham sanPham) {
+        Bundle bundle= new Bundle();
+        bundle.putSerializable("SANPHAM",sanPham);
+        FragmentChiTietSP chiTietSP = new FragmentChiTietSP();
+        chiTietSP.setArguments(bundle);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_context,chiTietSP,"BACK_TAG").addToBackStack( "tag" );
+        transaction.commit();
     }
 }

@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+<<<<<<< Updated upstream
 public class FragmetSanPhamTheoDanhMuc extends Fragment {
     ListView lvDsSanPhamPK;
     ArrayList<SanPham> sanPhams;
@@ -47,6 +48,24 @@ public class FragmetSanPhamTheoDanhMuc extends Fragment {
         DanhSachSanPhamTheoDanhMucTask task = new DanhSachSanPhamTheoDanhMucTask();
         task.execute(getArguments().getInt("loaisp", -1));
     }
+=======
+    public class FragmetSanPhamTheoDanhMuc extends Fragment {
+        ListView lvDsSanPhamPK;
+        ArrayList<SanPham> sanPhams;
+        AdapterSanPham adapterSanPham;
+
+        public interface GuiDuLieuTuSpTheoDanhMucQuaMain{
+            void guiDuLieu3(SanPham sanPham);
+        }
+
+        GuiDuLieuTuSpTheoDanhMucQuaMain guiDuLieuTuSpTheoDanhMucQuaMain;
+
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            guiDuLieuTuSpTheoDanhMucQuaMain = (GuiDuLieuTuSpTheoDanhMucQuaMain) context;
+        }
+>>>>>>> Stashed changes
 
     class DanhSachSanPhamTheoDanhMucTask extends AsyncTask<Integer, Void, ArrayList<SanPham>> {
         @Override
@@ -54,11 +73,28 @@ public class FragmetSanPhamTheoDanhMuc extends Fragment {
             super.onPreExecute();
         }
 
+<<<<<<< Updated upstream
         @Override
         protected void onPostExecute(ArrayList<SanPham> sanPhams) {
             super.onPostExecute(sanPhams);
             adapterSanPham.clear();
             adapterSanPham.addAll(sanPhams);
+=======
+        private void addControls(View view) {
+            lvDsSanPhamPK = view.findViewById(R.id.lvDsSanPhamPK);
+            sanPhams = new ArrayList<>();
+            adapterSanPham = new AdapterSanPham(getActivity(), R.layout.dong_listview_sanpham, sanPhams);
+            adapterSanPham.setListener(new AdapterSanPham.AdapterListener() {
+                @Override
+                public void guiDulieu(SanPham sanPham) {
+                    guiDuLieuTuSpTheoDanhMucQuaMain.guiDuLieu3(sanPham);
+                }
+            });
+            lvDsSanPhamPK.setAdapter(adapterSanPham);
+            DanhSachSanPhamTheoDanhMucTask task = new DanhSachSanPhamTheoDanhMucTask();
+            task.execute(getArguments().getInt("loaisp",-1));
+
+>>>>>>> Stashed changes
         }
 
         @Override
