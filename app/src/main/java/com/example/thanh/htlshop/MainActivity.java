@@ -202,25 +202,22 @@ public class MainActivity extends AppCompatActivity
         FragmentChiTietSP chiTietSP = new FragmentChiTietSP();
         chiTietSP.setArguments(bundle);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_context,chiTietSP);
+        transaction.replace(R.id.main_context,chiTietSP,"BACK_TAG").addToBackStack( "tag" );
         transaction.commit();
     }
 
     public void guiDuLieuDM(DanhMuc danhMuc) {
         Bundle bundle= new Bundle();
         bundle.putSerializable("DANHMUC",danhMuc);
-
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
         transaction.commit();
     }
-   /* @Override
+   @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }*/
+       final FragmentChiTietSP chiTietSP = (FragmentChiTietSP) getSupportFragmentManager().findFragmentByTag("BACK_TAG");
+
+       if (chiTietSP.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+           super.onBackPressed();
+       }
+    }
 }

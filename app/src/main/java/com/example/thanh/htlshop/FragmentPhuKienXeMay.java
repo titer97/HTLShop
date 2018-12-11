@@ -112,7 +112,7 @@ public class FragmentPhuKienXeMay extends Fragment {
                     sp.setMaNcc(jsonObject.getInt("mancc"));
                     sp.setTongDanhGia(jsonObject.getString("TongDanhGia"));
                     sp.setNgayCapNhat(jsonObject.getString("ngaycapnhat"));
-                    sp.setSoLuongTon(jsonObject.getInt("slbanra"));
+                    sp.setSoLuongTon(jsonObject.getInt("soluongton"));
                     sp.setMoTa(jsonObject.getString("mota"));
                     sp.setSlBanRa(jsonObject.getInt("slbanra"));
                     dsSanPham.add(sp);
