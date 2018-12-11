@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
-<<<<<<< Updated upstream
     public void guiDuLieuDM(DanhMuc danhMuc) {
         Bundle bundle= new Bundle();
         bundle.putSerializable("DANHMUC",danhMuc);
@@ -218,8 +217,6 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
-=======
->>>>>>> Stashed changes
    @Override
     public void onBackPressed() {
        final FragmentChiTietSP chiTietSP = (FragmentChiTietSP) getSupportFragmentManager().findFragmentByTag("BACK_TAG");
