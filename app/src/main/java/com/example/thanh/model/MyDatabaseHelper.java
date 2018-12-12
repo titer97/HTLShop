@@ -96,4 +96,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME,ID + "=?", new String[]{String.valueOf(chiTietHoaDon.getId())});
         db.close();
     }
+
+    public void xoaTatCaChiTietHoaDon(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_NAME);
+        db.close();}
+
 }

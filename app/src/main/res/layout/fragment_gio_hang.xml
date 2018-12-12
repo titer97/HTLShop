@@ -26,12 +26,14 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <Button
+            android:id="@+id/btnXoaGioHang"
             android:layout_width="0dp"
             android:text="@string/xoa_gio_hang"
             android:layout_weight="1"
             android:layout_height="match_parent"
             tools:ignore="ButtonStyle" />
         <Button
+            android:id="@+id/btnDatHang"
             android:layout_width="0dp"
             android:text="@string/dat_hang"
             android:layout_weight="1"
