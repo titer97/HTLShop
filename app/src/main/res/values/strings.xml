@@ -26,4 +26,7 @@
     <string name="gio_hang">Giỏ hàng của bạn:</string>
     <string name="xoa_gio_hang">Xóa giỏ hàng</string>
     <string name="dat_hang">Đặt hàng</string>
+    <string name="dang_nhap_hoac_dang_ky">Đăng nhập hoặc đăng ký</string>
+    <string name="thong_tin_tai_khoan">Thông tin tài khoản</string>
+    <string name="tim_kiem">Tìm kiếm</string>
 </resources>

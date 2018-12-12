@@ -20,7 +20,7 @@
         <item
         android:id="@+id/nav_tim_kiem"
         android:icon="@drawable/ic_menu_slideshow"
-        android:title="Tìm kiếm" />
+        android:title="@string/tim_kiem" />
 
     </group>
 
@@ -29,11 +29,11 @@
             <item
                 android:id="@+id/nav_thong_tin_tai_khoan"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Thông tin tài khoản" />
+                android:title="@string/thong_tin_tai_khoan" />
             <item
                 android:id="@+id/nav_dang_nhap"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Đăng nhập" />
+                android:title="@string/dang_nhap_hoac_dang_ky" />
         </menu>
     </item>
 
