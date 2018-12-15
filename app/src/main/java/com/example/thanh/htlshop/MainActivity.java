@@ -130,6 +130,12 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         } else if (id == R.id.nav_thong_tin_tai_khoan) {
 
+                FragmentThongTinTk fragmentThongTinTk = new FragmentThongTinTk();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_context, fragmentThongTinTk);
+                transaction.commit();
+
+
         } else if (id == R.id.nav_dang_nhap) {
             if (itemDangNhap.getTitle().equals("Đăng nhập")) {
                 Intent intent = new Intent(this, LoginActivity.class);

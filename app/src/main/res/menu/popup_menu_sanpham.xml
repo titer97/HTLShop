@@ -3,4 +3,7 @@
 <item
     android:id="@+id/itemChiTiet"
     android:title="Chi tiết sản phẩm"></item>
+    <item
+        android:id="@+id/itemGioHang"
+        android:title="Thêm giỏ hàng"></item>
 </menu>

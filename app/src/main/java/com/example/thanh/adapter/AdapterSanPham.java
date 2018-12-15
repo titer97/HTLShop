@@ -1,8 +1,10 @@
 package com.example.thanh.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -14,12 +16,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.thanh.htlshop.FragmentChiTietSP;
 import com.example.thanh.htlshop.R;
+import com.example.thanh.model.ChiTietHoaDon;
+import com.example.thanh.model.MyDatabaseHelper;
 import com.example.thanh.model.SanPham;
+import com.example.thanh.model.TaiKhoan;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,6 +42,10 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
     int resource;
     List<SanPham> objects;
     private AdapterListener mListener;
+    private int maKh;
+
+    private String FileName = "UsernameAndPassword";
+
 
     public interface AdapterListener {
         void guiDulieu(SanPham sanPham);
@@ -67,12 +78,30 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 PopupMenu popupMenu = new PopupMenu(context, v);
+                final MyDatabaseHelper db = new MyDatabaseHelper(getContext());
+
+
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.itemChiTiet) {
                             mListener.guiDulieu(sanPham);
+
+                        }
+                        else if(menuItem.getItemId()== R.id.itemGioHang)
+
+                        {
+
+                            ChiTietHoaDon cthd = new ChiTietHoaDon();
+                            cthd.setMasp(sanPham.getMaSp());
+                            cthd.setDongia(sanPham.getGiaBan());
+                            cthd.setSoluong(1);
+                            cthd.setMakh(maKh);
+                            db.themChiTietHoaDon(cthd);
+                            Toast.makeText(getContext(), "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }

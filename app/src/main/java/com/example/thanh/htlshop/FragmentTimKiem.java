@@ -1,5 +1,6 @@
 package com.example.thanh.htlshop;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,6 +42,18 @@ public class FragmentTimKiem extends Fragment{
     ArrayAdapter<String> autoCompleteAdapter;
     ArrayList<String> dsTenSp;
 
+
+   /* public interface GuiDuLieuTuPKXMQuaMain{
+        void guiDuLieu2(SanPham sanPham);
+    }
+
+    GuiDuLieuTuPKXMQuaMain guiDuLieuTuPKXMQuaMain;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        guiDuLieuTuPKXMQuaMain = (GuiDuLieuTuPKXMQuaMain) context;
+    }*/
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,6 +61,7 @@ public class FragmentTimKiem extends Fragment{
         addControls(view);
         return view;
     }
+
 
 
     private void addControls(View view) {
@@ -61,11 +75,19 @@ public class FragmentTimKiem extends Fragment{
                 task2.execute(tim_kiem);
             }
         });
+
         lvTim = view.findViewById(R.id.lvTimDsSanPham);
         sanPhams = new ArrayList<>(); //ds san pham
         dsTenSp = new ArrayList<>(); //ds ten san pham
         sanPhamArrayAdapter = new AdapterSanPham(getActivity(), R.layout.dong_listview_sanpham, sanPhams);
+    /*    sanPhamArrayAdapter.setListener(new AdapterSanPham.AdapterListener() {
+            @Override
+            public void guiDulieu(SanPham sanPham) {
+            guiDuLieuTuPKXMQuaMain.guiDuLieu2(sanPham);
+            }
+        });*/
         lvTim.setAdapter(sanPhamArrayAdapter);
+
 
 
         autoCompleteAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dsTenSp);
@@ -73,6 +95,8 @@ public class FragmentTimKiem extends Fragment{
 
         DanhSachSanPhamTask task = new DanhSachSanPhamTask();
         task.execute();
+
+
     }
 
 
