@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     private FragmentManager fragmentManager;
     private MenuItem itemDangNhap;
+    private MenuItem itemThongTinTaiKhoan;
     private String usernameHienTai;
     private String passwordHienTai;
     private TextView txtEmail;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Menu menuNav = navigationView.getMenu();
         itemDangNhap = menuNav.findItem(R.id.nav_dang_nhap);
-
+        itemThongTinTaiKhoan = menuNav.findItem(R.id.nav_thong_tin_tai_khoan);
         docUsernamePassword();
         MyDatabaseHelper db = new MyDatabaseHelper(this);
 
@@ -129,6 +130,10 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.main_context, fragmentTimKiem);
             transaction.commit();
         } else if (id == R.id.nav_thong_tin_tai_khoan) {
+            FragmentThongTinTaiKhoan fragmentThongTinTaiKhoan = new FragmentThongTinTaiKhoan();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.main_context,fragmentThongTinTaiKhoan);
+            transaction.commit();
 
                 FragmentThongTinTk fragmentThongTinTk = new FragmentThongTinTk();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -137,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_dang_nhap) {
-            if (itemDangNhap.getTitle().equals("Đăng nhập")) {
+            if (itemDangNhap.getTitle().equals(getString(R.string.title_activity_login))) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, 1);
             } else if (itemDangNhap.getTitle().equals("Đăng xuất")) {
@@ -149,7 +154,8 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         SharedPreferences sharedPreferences = getSharedPreferences(FileName, Context.MODE_PRIVATE);
                         sharedPreferences.edit().clear().apply();
-                        itemDangNhap.setTitle("Đăng nhập");
+                        itemDangNhap.setTitle(getString(R.string.title_activity_login));
+                        itemThongTinTaiKhoan.setVisible(false);
                         txtEmail.setText("abc@gmail.com");
                     }
                 }).setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -177,6 +183,7 @@ public class MainActivity extends AppCompatActivity
                 luuUsernamePassword(mUsername, mPassword,mMaKh);
                 itemDangNhap.setTitle("Đăng xuất");
                 txtEmail.setText(mUsername);
+                itemThongTinTaiKhoan.setVisible(true);
             }
         }
     }
@@ -198,10 +205,12 @@ public class MainActivity extends AppCompatActivity
         passwordHienTai = sharedPreferences.getString("password", defaultValue2);
         if (usernameHienTai.equals("abc@gmail.com")) {
             //nếu ko có dữ liệu
-            itemDangNhap.setTitle("Đăng nhập");
+            itemDangNhap.setTitle(getString(R.string.title_activity_login));
+            itemThongTinTaiKhoan.setVisible(false);
         } else {
             //nếu có lưu dữ liệu
             itemDangNhap.setTitle("Đăng xuất");
+            itemThongTinTaiKhoan.setVisible(true);
         }
     }
 

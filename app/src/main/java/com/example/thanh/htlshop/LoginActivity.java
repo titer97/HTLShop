@@ -332,17 +332,18 @@ public class LoginActivity extends AppCompatActivity {
                         return false;
                     } else {
                         //dang ky tai khoan
+
                         String thamSo = "username=" + mUsername + "&password=" + mPassword;
                         URL url2 = new URL("http://tripletstore.somee.com/api/taikhoan/?" + thamSo);
                         HttpURLConnection httpURLConnection2 = (HttpURLConnection) url2.openConnection();
-                        httpURLConnection.setRequestMethod("POST");
-                        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                        httpURLConnection2.setRequestMethod("POST");
+                        httpURLConnection2.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                         InputStreamReader isr2 = new InputStreamReader(httpURLConnection2.getInputStream(), "UTF-8");
                         BufferedReader br2 = new BufferedReader(isr2);
                         StringBuilder builder2 = new StringBuilder();
-                        String line2 = null;
+                        String line2;
                         while ((line2 = br2.readLine()) != null) {
-                            builder2.append(line);
+                            builder2.append(line2);
                         }
                         //neu ket qua tra ve True thi dang ky tai khoan thanh cong
                         boolean ketqua = builder2.toString().contains("true");
