@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class FragmentThongTinTaiKhoan extends Fragment {
 
-    private EditText edtEmail, edtTen, edtDiaChi, edtSdt, edtNgaySinh;
+    private EditText edtEmail, edtTen, edtDiaChi, edtSdt;
     private String FileName = "UsernameAndPassword";
     private int check = 1;
     private Button btnSuaThongTin;
@@ -45,7 +45,6 @@ public class FragmentThongTinTaiKhoan extends Fragment {
         edtTen = view.findViewById(R.id.edtTen);
         edtDiaChi = view.findViewById(R.id.edtDiaChi);
         edtSdt = view.findViewById(R.id.edtSdt);
-        edtNgaySinh = view.findViewById(R.id.edtNgaySinh);
         btnSuaThongTin = view.findViewById(R.id.btnSuaThongTin);
         docUsernamePassword();
         kiemTraButtonSuaThongTin(1);
@@ -90,7 +89,6 @@ public class FragmentThongTinTaiKhoan extends Fragment {
                         kh.setDiaChi(jsonObject.getString("diachi"));
                         kh.setEmail(jsonObject.getString("email"));
                         kh.setMaKh(makh);
-                        kh.setNgaySinh(jsonObject.getString("ngaysinh"));
                         kh.setSdt(jsonObject.getString("sdt"));
                         return kh;
                     }
@@ -115,7 +113,6 @@ public class FragmentThongTinTaiKhoan extends Fragment {
             if (khachHang != null) {
                 edtEmail.setText(khachHang.getEmail() + "");
                 edtDiaChi.setText(khachHang.getDiaChi() + "");
-                edtNgaySinh.setText(khachHang.getNgaySinh() + "");
                 edtSdt.setText(khachHang.getSdt() + "");
                 edtTen.setText(khachHang.getTenKh() + "");
                 Toast.makeText(getActivity(), "Load thông tin khách hàng thành công!", Toast.LENGTH_LONG).show();
@@ -127,13 +124,11 @@ public class FragmentThongTinTaiKhoan extends Fragment {
         if (check == 1) {
             edtDiaChi.setEnabled(false);
             edtEmail.setEnabled(false);
-            edtNgaySinh.setEnabled(false);
             edtSdt.setEnabled(false);
             edtTen.setEnabled(false);
         } else {
             edtDiaChi.setEnabled(true);
             edtEmail.setEnabled(true);
-            edtNgaySinh.setEnabled(true);
             edtSdt.setEnabled(true);
             edtTen.setEnabled(true);
         }

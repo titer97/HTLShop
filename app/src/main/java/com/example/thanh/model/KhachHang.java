@@ -3,7 +3,6 @@ package com.example.thanh.model;
 public class KhachHang {
     private int stt;
     private String email;
-    private String ngaySinh;
     private String sdt;
     private int maKh;
     private String tenKh;
@@ -23,14 +22,6 @@ public class KhachHang {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getNgaySinh() {
-        return ngaySinh;
-    }
-
-    public void setNgaySinh(String ngaySinh) {
-        this.ngaySinh = ngaySinh;
     }
 
     public String getSdt() {
@@ -68,10 +59,9 @@ public class KhachHang {
     public KhachHang() {
     }
 
-    public KhachHang(int stt, String email, String ngaySinh, String sdt, int maKh, String tenKh, String diaChi) {
+    public KhachHang(int stt, String email, String sdt, int maKh, String tenKh, String diaChi) {
         this.stt = stt;
         this.email = email;
-        this.ngaySinh = ngaySinh;
         this.sdt = sdt;
         this.maKh = maKh;
         this.tenKh = tenKh;
