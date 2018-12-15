@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.thanh.adapter.AdapterSanPham;
@@ -26,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class FragmentPhuKienXeMay extends Fragment {
+
     ListView lvDsSanPhamPK;
     ArrayList<SanPham> sanPhams;
     AdapterSanPham adapterSanPham;

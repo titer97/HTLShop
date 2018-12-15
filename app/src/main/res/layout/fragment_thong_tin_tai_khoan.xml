@@ -2,75 +2,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <TextView
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Họ và tên: "
-        android:textSize="20sp" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edtTen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nhập tên của bạn" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtTen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Nhập tên:" />
+    </android.support.design.widget.TextInputLayout>
 
-    <TextView
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Số điện thoại: "
-        android:textSize="20sp" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edtSdt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nhập sdt của bạn" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtSdt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Nhập số điện thoại:" />
+    </android.support.design.widget.TextInputLayout>
 
-    <TextView
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Email: "
-        android:textSize="20sp" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edtEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nhập email của bạn" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Nhập email: " />
+    </android.support.design.widget.TextInputLayout>
 
-    <TextView
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ngày sinh: "
-        android:textSize="20sp" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edtNgaySinh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nhập ngày sinh của bạn" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Địa chỉ: "
-        android:textSize="20sp" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtNgaySinh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Nhập ngày sinh:" />
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edtDiaChi"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nhập địa chỉ của bạn" />
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtDiaChi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Nhập địa chỉ:" />
+    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
+        android:paddingTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnHuy"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Hủy" />
+
         <Button
             android:id="@+id/btnSuaThongTin"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Sửa thông tin"/>
+            android:text="Sửa thông tin" />
     </LinearLayout>
 </LinearLayout>

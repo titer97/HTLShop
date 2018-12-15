@@ -43,17 +43,18 @@ public class FragmentTimKiem extends Fragment{
     ArrayList<String> dsTenSp;
 
 
-   /* public interface GuiDuLieuTuPKXMQuaMain{
-        void guiDuLieu2(SanPham sanPham);
+    public interface GuiDuLieuTuTimKiemQuaMain{
+        void guiDuLieu4(SanPham sanPham);
     }
 
-    GuiDuLieuTuPKXMQuaMain guiDuLieuTuPKXMQuaMain;
+    GuiDuLieuTuTimKiemQuaMain guiDuLieuTuTimKiemQuaMain;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        guiDuLieuTuPKXMQuaMain = (GuiDuLieuTuPKXMQuaMain) context;
-    }*/
+        guiDuLieuTuTimKiemQuaMain = (GuiDuLieuTuTimKiemQuaMain) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,8 +62,6 @@ public class FragmentTimKiem extends Fragment{
         addControls(view);
         return view;
     }
-
-
 
     private void addControls(View view) {
         edtTimTen = view.findViewById(R.id.edtTimTen);
@@ -80,23 +79,19 @@ public class FragmentTimKiem extends Fragment{
         sanPhams = new ArrayList<>(); //ds san pham
         dsTenSp = new ArrayList<>(); //ds ten san pham
         sanPhamArrayAdapter = new AdapterSanPham(getActivity(), R.layout.dong_listview_sanpham, sanPhams);
-    /*    sanPhamArrayAdapter.setListener(new AdapterSanPham.AdapterListener() {
+        sanPhamArrayAdapter.setListener(new AdapterSanPham.AdapterListener() {
             @Override
             public void guiDulieu(SanPham sanPham) {
-            guiDuLieuTuPKXMQuaMain.guiDuLieu2(sanPham);
+                guiDuLieuTuTimKiemQuaMain.guiDuLieu4(sanPham);
             }
-        });*/
+        });
         lvTim.setAdapter(sanPhamArrayAdapter);
-
-
 
         autoCompleteAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dsTenSp);
         edtTimTen.setAdapter(autoCompleteAdapter);
 
         DanhSachSanPhamTask task = new DanhSachSanPhamTask();
         task.execute();
-
-
     }
 
 

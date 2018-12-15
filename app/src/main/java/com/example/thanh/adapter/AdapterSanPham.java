@@ -33,6 +33,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class AdapterSanPham extends ArrayAdapter<SanPham> {
@@ -43,9 +45,7 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
     List<SanPham> objects;
     private AdapterListener mListener;
     private int maKh;
-
     private String FileName = "UsernameAndPassword";
-
 
     public interface AdapterListener {
         void guiDulieu(SanPham sanPham);
@@ -62,7 +62,6 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
         this.objects = objects;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = this.context.getLayoutInflater();
@@ -78,23 +77,14 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 PopupMenu popupMenu = new PopupMenu(context, v);
                 final MyDatabaseHelper db = new MyDatabaseHelper(getContext());
-
-
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.itemChiTiet) {
                             mListener.guiDulieu(sanPham);
-
-                        }
-                        else if(menuItem.getItemId()== R.id.itemGioHang)
-
-                        {
-
+                        } else if (menuItem.getItemId() == R.id.itemGioHang) {
                             ChiTietHoaDon cthd = new ChiTietHoaDon();
                             cthd.setMasp(sanPham.getMaSp());
                             cthd.setDongia(sanPham.getGiaBan());
@@ -107,6 +97,23 @@ public class AdapterSanPham extends ArrayAdapter<SanPham> {
                     }
                 });
                 popupMenu.getMenuInflater().inflate(R.menu.popup_menu_sanpham, popupMenu.getMenu());
+                try {
+                    Field[] fields = popupMenu.getClass().getDeclaredFields();
+                    for (Field field : fields) {
+                        if ("mPopup".equals(field.getName())) {
+                            field.setAccessible(true);
+                            Object menuPopupHelper = field.get(popupMenu);
+                            Class<?> classPopupHelper = Class.forName(menuPopupHelper
+                                    .getClass().getName());
+                            Method setForceIcons = classPopupHelper.getMethod(
+                                    "setForceShowIcon", boolean.class);
+                            setForceIcons.invoke(menuPopupHelper, true);
+                            break;
+                        }
+                    }
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
                 popupMenu.show();
             }
         });

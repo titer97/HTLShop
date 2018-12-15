@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -332,7 +333,6 @@ public class LoginActivity extends AppCompatActivity {
                         return false;
                     } else {
                         //dang ky tai khoan
-
                         String thamSo = "username=" + mUsername + "&password=" + mPassword;
                         URL url2 = new URL("http://tripletstore.somee.com/api/taikhoan/?" + thamSo);
                         HttpURLConnection httpURLConnection2 = (HttpURLConnection) url2.openConnection();
@@ -353,7 +353,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("MYTAG", "doInBackground error: " + e.toString());
             }
             return false;
         }

@@ -5,12 +5,6 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <!--EditText
-        android:id="@+id/edtTimTen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />-->
     <AutoCompleteTextView
         android:id="@+id/edtTimTen"
         android:completionThreshold="2"
@@ -18,26 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
     <Button
         android:id="@+id/btnTimKiem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tìm kiếm"/>
 
-  <!--  <EditText
-        android:id="@+id/edtHienTen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />-->
-
     <ListView
         android:id="@+id/lvTimDsSanPham"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
     </ListView>
 
 

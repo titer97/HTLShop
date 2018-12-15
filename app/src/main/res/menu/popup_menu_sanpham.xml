@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:id="@+id/itemChiTiet"
-    android:title="Chi tiết sản phẩm"></item>
+    <item
+        android:id="@+id/itemChiTiet"
+        android:icon="@drawable/more_details_24px"
+        android:title="@string/mnu_chi_tiet_san_pham" />
     <item
         android:id="@+id/itemGioHang"
-        android:title="Thêm giỏ hàng"></item>
+        android:icon="@drawable/ic_add_shopping_cart_black_24dp"
+        android:title="@string/mnu_them_vao_gio_hang" />
 </menu>

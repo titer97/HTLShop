@@ -45,9 +45,8 @@ public class FragmentDanhMucSanPham extends Fragment {
     private void addControls(View view) {
         lvDanhMuc = view.findViewById(R.id.lvDanhMuc);
         adapterDanhMuc = new ArrayAdapter<DanhMuc>(getActivity(), android.R.layout.simple_list_item_1);
-
-
         lvDanhMuc.setAdapter(adapterDanhMuc);
+
         DanhSachDanhMucTask task = new DanhSachDanhMucTask();
         task.execute();
     }

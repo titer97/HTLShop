@@ -28,7 +28,7 @@ import com.example.thanh.model.MyDatabaseHelper;
 import com.example.thanh.model.SanPham;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentPhuKienXeMay.GuiDuLieuTuPKXMQuaMain , FragmetSanPhamTheoDanhMuc.GuiDuLieuTuSpTheoDanhMucQuaMain{
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentPhuKienXeMay.GuiDuLieuTuPKXMQuaMain, FragmetSanPhamTheoDanhMuc.GuiDuLieuTuSpTheoDanhMucQuaMain, FragmentTimKiem.GuiDuLieuTuTimKiemQuaMain {
 
     private FragmentManager fragmentManager;
     private MenuItem itemDangNhap;
@@ -48,8 +48,12 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                FragmentGioHang fragmentGioHang = new FragmentGioHang();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_context, fragmentGioHang);
+                transaction.commit();
             }
         });
 
@@ -79,15 +83,15 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
 
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -113,13 +117,12 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.main_context, fragmentPhuKienXeMay);
             transaction.commit();
-        }
-        else if (id == R.id.nav_danh_muc) {
+        } else if (id == R.id.nav_danh_muc) {
             FragmentDanhMucSanPham fragmentDanhMucSanPham = new FragmentDanhMucSanPham();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.main_context, fragmentDanhMucSanPham);
             transaction.commit();
-        }else if (id == R.id.nav_gio_hang) {
+        } else if (id == R.id.nav_gio_hang) {
             FragmentGioHang fragmentGioHang = new FragmentGioHang();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.main_context, fragmentGioHang);
@@ -132,15 +135,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_thong_tin_tai_khoan) {
             FragmentThongTinTaiKhoan fragmentThongTinTaiKhoan = new FragmentThongTinTaiKhoan();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.main_context,fragmentThongTinTaiKhoan);
+            transaction.replace(R.id.main_context, fragmentThongTinTaiKhoan);
             transaction.commit();
-
-                FragmentThongTinTk fragmentThongTinTk = new FragmentThongTinTk();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_context, fragmentThongTinTk);
-                transaction.commit();
-
-
         } else if (id == R.id.nav_dang_nhap) {
             if (itemDangNhap.getTitle().equals(getString(R.string.title_activity_login))) {
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -179,8 +175,8 @@ public class MainActivity extends AppCompatActivity
             if (resultCode == Activity.RESULT_OK) {
                 String mUsername = data.getStringExtra("username");
                 String mPassword = data.getStringExtra("password");
-                int mMaKh = data.getIntExtra("makh",999);
-                luuUsernamePassword(mUsername, mPassword,mMaKh);
+                int mMaKh = data.getIntExtra("makh", 999);
+                luuUsernamePassword(mUsername, mPassword, mMaKh);
                 itemDangNhap.setTitle("Đăng xuất");
                 txtEmail.setText(mUsername);
                 itemThongTinTaiKhoan.setVisible(true);
@@ -188,7 +184,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void luuUsernamePassword(String mUsername, String mPassword,int mMaKh) {
+    private void luuUsernamePassword(String mUsername, String mPassword, int mMaKh) {
         SharedPreferences sharedPreferences = getSharedPreferences(FileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", mUsername);
@@ -216,39 +212,43 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void guiDuLieu2(SanPham sanPham) {
-        Bundle bundle= new Bundle();
-        bundle.putSerializable("SANPHAM",sanPham);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SANPHAM", sanPham);
         FragmentChiTietSP chiTietSP = new FragmentChiTietSP();
         chiTietSP.setArguments(bundle);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_context,chiTietSP,"BACK_TAG").addToBackStack( "tag" );
+        transaction.replace(R.id.main_context, chiTietSP, "BACK_TAG").addToBackStack("tag");
         transaction.commit();
     }
 
-    public void guiDuLieuDM(DanhMuc danhMuc) {
-        Bundle bundle= new Bundle();
-        bundle.putSerializable("DANHMUC",danhMuc);
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.commit();
-    }
-
-   @Override
+    @Override
     public void onBackPressed() {
-       final FragmentChiTietSP chiTietSP = (FragmentChiTietSP) getSupportFragmentManager().findFragmentByTag("BACK_TAG");
+        final FragmentChiTietSP chiTietSP = (FragmentChiTietSP) getSupportFragmentManager().findFragmentByTag("BACK_TAG");
 
-       if (chiTietSP.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
-           super.onBackPressed();
-       }
+        if (chiTietSP.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+            super.onBackPressed();
+        }
     }
 
     @Override
     public void guiDuLieu3(SanPham sanPham) {
-        Bundle bundle= new Bundle();
-        bundle.putSerializable("SANPHAM",sanPham);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SANPHAM", sanPham);
         FragmentChiTietSP chiTietSP = new FragmentChiTietSP();
         chiTietSP.setArguments(bundle);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_context,chiTietSP,"BACK_TAG").addToBackStack( "tag" );
+        transaction.replace(R.id.main_context, chiTietSP, "BACK_TAG").addToBackStack("tag");
+        transaction.commit();
+    }
+
+    @Override
+    public void guiDuLieu4(SanPham sanPham) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SANPHAM", sanPham);
+        FragmentChiTietSP chiTietSP = new FragmentChiTietSP();
+        chiTietSP.setArguments(bundle);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_context, chiTietSP, "BACK_TAG").addToBackStack("tag");
         transaction.commit();
     }
 }

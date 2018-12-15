@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,7 +48,7 @@ public class FragmentChiTietSP extends Fragment {
         TextView txtMota = view.findViewById(R.id.txtMota);
         TextView txtSlt = view.findViewById(R.id.txtSoluongton);
         ImageButton btnThemVaoGioHang = view.findViewById(R.id.btnThemGioHang);
-
+        anKeyBoard();
         docUsernamePassword();
         Bundle bundle = getArguments();
         final SanPham sp = (SanPham) bundle.getSerializable("SANPHAM");
@@ -107,5 +108,8 @@ public class FragmentChiTietSP extends Fragment {
         int defaultValue3 = 999;
         maKh = sharedPreferences.getInt("makh", defaultValue3);
     }
-
+    private void anKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    }
 }

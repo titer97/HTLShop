@@ -64,8 +64,6 @@ public class FragmetSanPhamTheoDanhMuc extends Fragment {
         lvDsSanPhamPK.setAdapter(adapterSanPham);
         DanhSachSanPhamTheoDanhMucTask task = new DanhSachSanPhamTheoDanhMucTask();
         task.execute(getArguments().getInt("loaisp", -1));
-
-
     }
 
     class DanhSachSanPhamTheoDanhMucTask extends AsyncTask<Integer, Void, ArrayList<SanPham>> {

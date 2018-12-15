@@ -29,4 +29,6 @@
     <string name="dang_nhap_hoac_dang_ky">Đăng nhập hoặc đăng ký</string>
     <string name="thong_tin_tai_khoan">Thông tin tài khoản</string>
     <string name="tim_kiem">Tìm kiếm</string>
+    <string name="mnu_chi_tiet_san_pham">Chi tiết sản phẩm</string>
+    <string name="mnu_them_vao_gio_hang">Thêm vào giỏ hàng</string>
 </resources>
