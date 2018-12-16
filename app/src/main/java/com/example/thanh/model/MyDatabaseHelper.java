@@ -15,45 +15,45 @@ import java.util.List;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "ChiTietHoaDonList";
     private static final String TABLE_NAME = "ChiTietHoaDon";
-    private static final String ID="id";
-    private static final String MASP="masp";
-    private static final String MAKH="makh";
-    private static final String SOLUONG="soluong";
-    private static final String DONGIA="dongia";
+    private static final String ID = "id";
+    private static final String MASP = "masp";
+    private static final String MAKH = "makh";
+    private static final String SOLUONG = "soluong";
+    private static final String DONGIA = "dongia";
 
     private Context context;
 
     public MyDatabaseHelper(@Nullable Context context) {
-        super(context,DATABASE_NAME,null,1);
+        super(context, DATABASE_NAME, null, 1);
         this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sqlQuery = "CREATE TABLE " + TABLE_NAME + " (" +
-                ID+ " integer primary key, "+
-                MASP + " integer, "+
+                ID + " integer primary key, " +
+                MASP + " integer, " +
                 MAKH + " integer, " +
-                SOLUONG + " integer, "+
+                SOLUONG + " integer, " +
                 DONGIA + " integer)";
         sqLiteDatabase.execSQL(sqlQuery);
-        Toast.makeText(context,"Create successfully",Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Create successfully", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(sqLiteDatabase);
-        Toast.makeText(context,"Drop successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Drop successfully", Toast.LENGTH_LONG).show();
     }
 
-    public List<ChiTietHoaDon> layDsChiTietHd(){
+    public List<ChiTietHoaDon> layDsChiTietHd() {
         List<ChiTietHoaDon> dsCthd = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
-        if(cursor.moveToFirst()){
-            do{
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
                 ChiTietHoaDon cthd = new ChiTietHoaDon();
                 cthd.setId(cursor.getInt(0));
                 cthd.setMasp(cursor.getInt(1));
@@ -61,45 +61,65 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 cthd.setSoluong(cursor.getInt(3));
                 cthd.setDongia(cursor.getInt(4));
                 dsCthd.add(cthd);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
         return dsCthd;
     }
 
-    public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon){
+    public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values=  new ContentValues();
-        values.put(MASP,chiTietHoaDon.getMasp());
-        values.put(MAKH,chiTietHoaDon.getMakh());
-        values.put(SOLUONG,chiTietHoaDon.getSoluong());
-        values.put(DONGIA,chiTietHoaDon.getDongia());
-        db.insert(TABLE_NAME,null,values);
+        ContentValues values = new ContentValues();
+        values.put(MASP, chiTietHoaDon.getMasp());
+        values.put(MAKH, chiTietHoaDon.getMakh());
+        values.put(SOLUONG, chiTietHoaDon.getSoluong());
+        values.put(DONGIA, chiTietHoaDon.getDongia());
+        db.insert(TABLE_NAME, null, values);
         db.close();
     }
 
-    public int suaChiTietHoaDon(ChiTietHoaDon chiTietHoaDon){
-        SQLiteDatabase db =this.getWritableDatabase();
+    public int suaChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(MASP,chiTietHoaDon.getMasp());
-        values.put(MAKH,chiTietHoaDon.getMakh());
-        values.put(SOLUONG,chiTietHoaDon.getSoluong());
-        values.put(DONGIA,chiTietHoaDon.getDongia());
-        int update = db.update(TABLE_NAME,values,ID + "=?", new String[]{String.valueOf(chiTietHoaDon.getId())});
+        values.put(MASP, chiTietHoaDon.getMasp());
+        values.put(MAKH, chiTietHoaDon.getMakh());
+        values.put(SOLUONG, chiTietHoaDon.getSoluong());
+        values.put(DONGIA, chiTietHoaDon.getDongia());
+        int update = db.update(TABLE_NAME, values, ID + "=?", new String[]{String.valueOf(chiTietHoaDon.getId())});
         db.close();
         return update;
     }
 
-    public void xoaChiTietHoaDon(ChiTietHoaDon chiTietHoaDon){
+    public void xoaChiTietHoaDon(int masp) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME,ID + "=?", new String[]{String.valueOf(chiTietHoaDon.getId())});
+        db.delete(TABLE_NAME, MASP + "=?", new String[]{String.valueOf(masp)});
         db.close();
     }
 
-    public void xoaTatCaChiTietHoaDon(){
+    public void xoaTatCaChiTietHoaDon() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_NAME);
-        db.close();}
+        db.execSQL("delete from " + TABLE_NAME);
+        db.close();
+    }
 
+    public ChiTietHoaDon layChiTietHdBangMaSp(int masp){
+        ChiTietHoaDon cthd = new ChiTietHoaDon();
+        List<ChiTietHoaDon> dsCthd = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                cthd.setId(cursor.getInt(0));
+                cthd.setMasp(cursor.getInt(1));
+                cthd.setMakh(cursor.getInt(2));
+                cthd.setSoluong(cursor.getInt(3));
+                cthd.setDongia(cursor.getInt(4));
+            } while (cursor.moveToNext() & cursor.getInt(1)!= masp);
+        }
+        cursor.close();
+        db.close();
+        return cthd;
+    }
 }

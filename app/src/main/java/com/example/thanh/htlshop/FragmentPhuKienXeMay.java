@@ -1,7 +1,11 @@
 package com.example.thanh.htlshop;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,9 +14,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.thanh.adapter.AdapterSanPham;
 import com.example.thanh.model.SanPham;
@@ -28,11 +34,12 @@ import java.util.ArrayList;
 
 public class FragmentPhuKienXeMay extends Fragment {
 
-    ListView lvDsSanPhamPK;
-    ArrayList<SanPham> sanPhams;
-    AdapterSanPham adapterSanPham;
+    private ListView lvDsSanPhamPK;
+    private ArrayList<SanPham> sanPhams;
+    private AdapterSanPham adapterSanPham;
+    private ProgressBar progressBar;
 
-    public interface GuiDuLieuTuPKXMQuaMain{
+    public interface GuiDuLieuTuPKXMQuaMain {
         void guiDuLieu2(SanPham sanPham);
     }
 
@@ -53,6 +60,7 @@ public class FragmentPhuKienXeMay extends Fragment {
     }
 
     private void addControls(View view) {
+        progressBar = view.findViewById(R.id.load_data_progress);
         lvDsSanPhamPK = view.findViewById(R.id.lvDsSanPhamPK);
         sanPhams = new ArrayList<>();
         adapterSanPham = new AdapterSanPham(getActivity(), R.layout.dong_listview_sanpham, sanPhams);
@@ -63,6 +71,7 @@ public class FragmentPhuKienXeMay extends Fragment {
             }
         });
         lvDsSanPhamPK.setAdapter(adapterSanPham);
+        showProgress(true);
         DanhSachSanPhamTask task = new DanhSachSanPhamTask();
         task.execute();
 
@@ -77,6 +86,7 @@ public class FragmentPhuKienXeMay extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<SanPham> sanPhams) {
             super.onPostExecute(sanPhams);
+            showProgress(false);
             adapterSanPham.clear();
             adapterSanPham.addAll(sanPhams);
         }
@@ -104,7 +114,7 @@ public class FragmentPhuKienXeMay extends Fragment {
                 JSONArray jsonArray = new JSONArray(builder.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    SanPham sp=new SanPham();
+                    SanPham sp = new SanPham();
                     sp.setTenSp(jsonObject.getString("tensp"));
                     sp.setMaSp(jsonObject.getInt("masp"));
                     sp.setAnhBia(jsonObject.getString("anhbia"));
@@ -126,6 +136,44 @@ public class FragmentPhuKienXeMay extends Fragment {
             }
             return dsSanPham;
         }
+    }
 
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = 0;
+            if (getActivity() != null && isAdded()) {
+                shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            }
+
+            lvDsSanPhamPK.setVisibility(show ? View.GONE : View.VISIBLE);
+            lvDsSanPhamPK.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    lvDsSanPhamPK.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            lvDsSanPhamPK.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 }

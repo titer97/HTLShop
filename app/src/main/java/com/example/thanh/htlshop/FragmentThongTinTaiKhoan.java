@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,11 +34,13 @@ public class FragmentThongTinTaiKhoan extends Fragment {
     private EditText edtMaKH;
     private String FileName = "UsernameAndPassword";
     private int check = 1;
-    private Button btnSuaThongTin,btnLuuThongTin;
+    private Button btnSuaThongTin, btnLuuThongTin;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_thong_tin_tai_khoan, container, false);
+        anKeyBoard();
         addControls(view);
         return view;
     }
@@ -73,12 +76,13 @@ public class FragmentThongTinTaiKhoan extends Fragment {
         kh.setSdt(edtSdt.getText().toString());
         kh.setEmail(edtEmail.getText().toString());
         kh.setDiaChi(edtDiaChi.getText().toString());
-
+        kiemTraButtonSuaThongTin(1);
         SuaThongTinKHTask task = new SuaThongTinKHTask();
         task.execute(kh);
 
     }
-    public  class SuaThongTinKHTask extends AsyncTask<KhachHang, Void, Boolean>{
+
+    public class SuaThongTinKHTask extends AsyncTask<KhachHang, Void, Boolean> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -87,12 +91,9 @@ public class FragmentThongTinTaiKhoan extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if(aBoolean.booleanValue()==true)
-            {
+            if (aBoolean) {
                 Toast.makeText(getActivity(), "Lưu thành công", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getActivity(), "Lưu không thành công", Toast.LENGTH_SHORT).show();
             }
         }
@@ -104,11 +105,10 @@ public class FragmentThongTinTaiKhoan extends Fragment {
 
         @Override
         protected Boolean doInBackground(KhachHang... khachHangs) {
-            try
-            {
+            try {
                 KhachHang kh = khachHangs[0];
-                String params = "?makh="+kh.getMaKh()+"&tenkh="+URLEncoder.encode(kh.getTenKh())+"&email="+URLEncoder.encode(kh.getEmail())+"&diachi="+URLEncoder.encode(kh.getDiaChi())+"&sdt="+URLEncoder.encode(kh.getSdt());
-                URL url = new URL("http://tripletstore.somee.com/api/khachhang/"+params);
+                String params = "?makh=" + kh.getMaKh() + "&tenkh=" + URLEncoder.encode(kh.getTenKh()) + "&email=" + URLEncoder.encode(kh.getEmail()) + "&diachi=" + URLEncoder.encode(kh.getDiaChi()) + "&sdt=" + URLEncoder.encode(kh.getSdt());
+                URL url = new URL("http://tripletstore.somee.com/api/khachhang/" + params);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("PUT");
                 httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -121,13 +121,13 @@ public class FragmentThongTinTaiKhoan extends Fragment {
                 }
                 boolean kq = builder.toString().contains("true");
                 return kq;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return false;
         }
     }
+
     private void docUsernamePassword() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FileName, Context.MODE_PRIVATE);
         int maKHHienTai = sharedPreferences.getInt("makh", 999);
@@ -184,7 +184,7 @@ public class FragmentThongTinTaiKhoan extends Fragment {
         protected void onPostExecute(KhachHang khachHang) {
             super.onPostExecute(khachHang);
             if (khachHang != null) {
-                edtMaKH.setText(khachHang.getMaKh()+"");
+                edtMaKH.setText(khachHang.getMaKh() + "");
                 edtEmail.setText(khachHang.getEmail() + "");
                 edtDiaChi.setText(khachHang.getDiaChi() + "");
                 edtSdt.setText(khachHang.getSdt() + "");
@@ -213,4 +213,8 @@ public class FragmentThongTinTaiKhoan extends Fragment {
         }
     }
 
+    private void anKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    }
 }

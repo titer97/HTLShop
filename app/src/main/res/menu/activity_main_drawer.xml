@@ -6,35 +6,41 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_phu_kien_xe_may"
-            android:icon="@drawable/ic_menu_camera"
             android:checked="true"
+            android:icon="@drawable/motorcycle_24px"
             android:title="Phụ kiện xe máy" />
+
+        <item
+            android:id="@+id/nav_tim_kiem"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/tim_kiem" />
+
         <item
             android:id="@+id/nav_danh_muc"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/category_24px"
             android:title="Danh mục sản phẩm" />
         <item
             android:id="@+id/nav_gio_hang"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_shopping_cart_black_24dp"
             android:title="Giỏ hàng" />
-        <item
-        android:id="@+id/nav_tim_kiem"
-        android:icon="@drawable/ic_menu_slideshow"
-        android:title="@string/tim_kiem" />
-
     </group>
+
 
     <item android:title="Tài khoản">
         <menu>
-            <item
-                android:id="@+id/nav_thong_tin_tai_khoan"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/thong_tin_tai_khoan" />
-            <item
-                android:id="@+id/nav_dang_nhap"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/dang_nhap_hoac_dang_ky" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_thong_tin_tai_khoan"
+                    android:icon="@drawable/ic_account_circle_black_24dp"
+                    android:title="@string/thong_tin_tai_khoan" />
+                <item
+                    android:id="@+id/nav_dang_nhap"
+                    android:checkable="false"
+                    android:icon="@drawable/login_24px"
+                    android:title="@string/dang_nhap_hoac_dang_ky" />
+            </group>
         </menu>
     </item>
+
 
 </menu>

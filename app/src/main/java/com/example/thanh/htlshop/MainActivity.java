@@ -28,11 +28,10 @@ import com.example.thanh.model.MyDatabaseHelper;
 import com.example.thanh.model.SanPham;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentPhuKienXeMay.GuiDuLieuTuPKXMQuaMain, FragmetSanPhamTheoDanhMuc.GuiDuLieuTuSpTheoDanhMucQuaMain, FragmentTimKiem.GuiDuLieuTuTimKiemQuaMain {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentPhuKienXeMay.GuiDuLieuTuPKXMQuaMain, FragmetSanPhamTheoDanhMuc.GuiDuLieuTuSpTheoDanhMucQuaMain, FragmentTimKiem.GuiDuLieuTuTimKiemQuaMain, FragmentGioHang.GuiDuLieuTuGioHangQuaMain {
 
     private FragmentManager fragmentManager;
-    private MenuItem itemDangNhap;
-    private MenuItem itemThongTinTaiKhoan;
+    private MenuItem itemDangNhap, itemThongTinTaiKhoan, itemGioHang, itemPhuKienXeMay;
     private String usernameHienTai;
     private String passwordHienTai;
     private TextView txtEmail;
@@ -44,18 +43,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                FragmentGioHang fragmentGioHang = new FragmentGioHang();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_context, fragmentGioHang);
-                transaction.commit();
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -68,9 +55,24 @@ public class MainActivity extends AppCompatActivity
         Menu menuNav = navigationView.getMenu();
         itemDangNhap = menuNav.findItem(R.id.nav_dang_nhap);
         itemThongTinTaiKhoan = menuNav.findItem(R.id.nav_thong_tin_tai_khoan);
+        itemGioHang = menuNav.findItem(R.id.nav_gio_hang);
+        itemPhuKienXeMay = menuNav.findItem(R.id.nav_phu_kien_xe_may);
         docUsernamePassword();
         MyDatabaseHelper db = new MyDatabaseHelper(this);
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                FragmentGioHang fragmentGioHang = new FragmentGioHang();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_context, fragmentGioHang);
+                transaction.commit();
+                itemGioHang.setChecked(true);
+            }
+        });
 
         View header_view = navigationView.getHeaderView(0);
         txtEmail = header_view.findViewById(R.id.txtEmail);
@@ -81,30 +83,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.main_context, fragmentPhuKienXeMay);
         transaction.commit();
-
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -224,9 +203,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         final FragmentChiTietSP chiTietSP = (FragmentChiTietSP) getSupportFragmentManager().findFragmentByTag("BACK_TAG");
-
-        if (chiTietSP.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+        if (chiTietSP.allowBackPressed()) {
             super.onBackPressed();
+            itemPhuKienXeMay.setChecked(true);
         }
     }
 
@@ -243,6 +222,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void guiDuLieu4(SanPham sanPham) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SANPHAM", sanPham);
+        FragmentChiTietSP chiTietSP = new FragmentChiTietSP();
+        chiTietSP.setArguments(bundle);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_context, chiTietSP, "BACK_TAG").addToBackStack("tag");
+        transaction.commit();
+    }
+
+    @Override
+    public void guiDuLieu5(SanPham sanPham) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("SANPHAM", sanPham);
         FragmentChiTietSP chiTietSP = new FragmentChiTietSP();

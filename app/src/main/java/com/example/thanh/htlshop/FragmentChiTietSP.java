@@ -31,6 +31,9 @@ import com.google.firebase.storage.StorageReference;
 import android.net.Uri;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class FragmentChiTietSP extends Fragment {
 
     private StorageReference mStorageRef;
@@ -53,7 +56,12 @@ public class FragmentChiTietSP extends Fragment {
         Bundle bundle = getArguments();
         final SanPham sp = (SanPham) bundle.getSerializable("SANPHAM");
         txtTenSanPham.setText(sp.getTenSp());
-        txtGiaBan.setText(String.valueOf(sp.getGiaBan()) + " VNĐ");
+
+        Locale localeVn = new Locale("vi","VN");
+        NumberFormat numberFormat = NumberFormat.getInstance(localeVn);
+        String gia= numberFormat.format(sp.getGiaBan());
+        txtGiaBan.setText(gia+ " VNĐ");
+
         txtSlt.setText(String.valueOf(sp.getSoLuongTon()));
         txtBaohanh.setText(sp.getBaoHanh());
         txtMota.setText(sp.getMoTa());
@@ -108,6 +116,7 @@ public class FragmentChiTietSP extends Fragment {
         int defaultValue3 = 999;
         maKh = sharedPreferences.getInt("makh", defaultValue3);
     }
+
     private void anKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);

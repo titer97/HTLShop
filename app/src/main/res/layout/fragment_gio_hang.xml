@@ -1,43 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/btnXoaGioHang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/xoa_gio_hang"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btnDatHang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dat_hang"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:gravity="center_horizontal"
+        android:text="@string/gio_hang"
         android:textColor="#ff0000"
-        android:text="@string/gio_hang"/>
+        android:textSize="20sp" />
 
     <ListView
         android:id="@+id/lvChiTietHoaDon"
         android:layout_width="match_parent"
-        android:layout_weight="8"
-        android:layout_height="0dp" />
+        android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <Button
-            android:id="@+id/btnXoaGioHang"
-            android:layout_width="0dp"
-            android:text="@string/xoa_gio_hang"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            tools:ignore="ButtonStyle" />
-        <Button
-            android:id="@+id/btnDatHang"
-            android:layout_width="0dp"
-            android:text="@string/dat_hang"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            tools:ignore="ButtonStyle" />
-    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/load_data_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
 </LinearLayout>

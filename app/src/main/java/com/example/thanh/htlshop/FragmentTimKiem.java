@@ -1,7 +1,11 @@
 package com.example.thanh.htlshop;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,11 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,20 +36,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class FragmentTimKiem extends Fragment{
+public class FragmentTimKiem extends Fragment {
 
-    AdapterSanPham sanPhamArrayAdapter;
-    ArrayList<SanPham> sanPhams;
-    AutoCompleteTextView edtTimTen;
-    Button btnTim;
-    ListView lvTim;
-    TextView edtTenSp, edtGiaSp;
+    private AdapterSanPham sanPhamArrayAdapter;
+    private ArrayList<SanPham> sanPhams;
+    private AutoCompleteTextView edtTimTen;
+    private Button btnTim;
+    private ListView lvTim;
+    private TextView edtTenSp, edtGiaSp;
+    private ProgressBar progressBar;
+    private ArrayAdapter<String> autoCompleteAdapter;
+    private ArrayList<String> dsTenSp;
 
-    ArrayAdapter<String> autoCompleteAdapter;
-    ArrayList<String> dsTenSp;
 
-
-    public interface GuiDuLieuTuTimKiemQuaMain{
+    public interface GuiDuLieuTuTimKiemQuaMain {
         void guiDuLieu4(SanPham sanPham);
     }
 
@@ -70,11 +76,13 @@ public class FragmentTimKiem extends Fragment{
             @Override
             public void onClick(View v) {
                 String tim_kiem = edtTimTen.getText().toString();
+                showProgress(true);
                 DanhSachSanPhamTask2 task2 = new DanhSachSanPhamTask2();
                 task2.execute(tim_kiem);
+                anKeyBoard();
             }
         });
-
+        progressBar = view.findViewById(R.id.load_data_progress);
         lvTim = view.findViewById(R.id.lvTimDsSanPham);
         sanPhams = new ArrayList<>(); //ds san pham
         dsTenSp = new ArrayList<>(); //ds ten san pham
@@ -89,15 +97,12 @@ public class FragmentTimKiem extends Fragment{
 
         autoCompleteAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dsTenSp);
         edtTimTen.setAdapter(autoCompleteAdapter);
-
         DanhSachSanPhamTask task = new DanhSachSanPhamTask();
         task.execute();
     }
 
 
-
-    class DanhSachSanPhamTask2 extends AsyncTask<String, Void,ArrayList<SanPham>> {
-
+    class DanhSachSanPhamTask2 extends AsyncTask<String, Void, ArrayList<SanPham>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -107,6 +112,7 @@ public class FragmentTimKiem extends Fragment{
         @Override
         protected void onPostExecute(ArrayList<SanPham> sanPhams) {
             super.onPostExecute(sanPhams);
+            showProgress(false);
             sanPhamArrayAdapter.addAll(sanPhams);
         }
 
@@ -128,7 +134,7 @@ public class FragmentTimKiem extends Fragment{
                 JSONArray jsonArray = new JSONArray(builder.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    if(jsonObject.getString("tensp").equals(strings[0])){
+                    if (jsonObject.getString("tensp").equals(strings[0])) {
                         SanPham sanPham = new SanPham();
                         sanPham.setTenSp(jsonObject.getString("tensp"));
                         sanPham.setMaSp(jsonObject.getInt("masp"));
@@ -206,7 +212,6 @@ public class FragmentTimKiem extends Fragment{
         @Override
         protected void onPostExecute(ArrayList<SanPham> sanPham) {
             super.onPostExecute(sanPham);
-
             if (sanPham != null) {
                 autoCompleteAdapter.clear();
                 //lay dc ds san pham
@@ -214,17 +219,58 @@ public class FragmentTimKiem extends Fragment{
                     //them ten sp vao autocomplete de tim kiem
                     autoCompleteAdapter.add(sp.getTenSp());
                 }
-
             } else {
                 Toast.makeText(getActivity(), "Không tìm thấy", Toast.LENGTH_LONG).show();
             }
-
         }
 
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
+        }
+    }
 
+    private void anKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    }
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = 0;
+            if (getActivity() != null && isAdded()) {
+                shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            }
+
+            lvTim.setVisibility(show ? View.GONE : View.VISIBLE);
+            lvTim.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    lvTim.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            lvTim.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 }
