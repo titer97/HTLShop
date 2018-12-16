@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thanh.model.DanhMuc;
 import com.example.thanh.model.MyDatabaseHelper;
@@ -131,7 +132,12 @@ public class MainActivity extends AppCompatActivity
                         sharedPreferences.edit().clear().apply();
                         itemDangNhap.setTitle(getString(R.string.title_activity_login));
                         itemThongTinTaiKhoan.setVisible(false);
-                        txtEmail.setText("abc@gmail.com");
+                        txtEmail.setText("");
+                        FragmentPhuKienXeMay fragmentPhuKienXeMay = new FragmentPhuKienXeMay();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.replace(R.id.main_context, fragmentPhuKienXeMay);
+                        transaction.commit();
+                        Toast.makeText(getApplicationContext(),"Đăng xuất thành công!",Toast.LENGTH_LONG).show();
                     }
                 }).setNegativeButton("Không", new DialogInterface.OnClickListener() {
                     @Override

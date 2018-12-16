@@ -13,6 +13,7 @@
             android:id="@+id/edtTen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="textPersonName"
             android:hint="Nhập tên:" />
     </android.support.design.widget.TextInputLayout>
 
@@ -24,6 +25,7 @@
             android:id="@+id/edtSdt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="phone"
             android:hint="Nhập số điện thoại:" />
     </android.support.design.widget.TextInputLayout>
 
@@ -35,6 +37,7 @@
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="textEmailAddress"
             android:hint="Nhập email: " />
     </android.support.design.widget.TextInputLayout>
 

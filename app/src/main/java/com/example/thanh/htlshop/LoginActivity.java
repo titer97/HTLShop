@@ -105,7 +105,6 @@ public class LoginActivity extends AppCompatActivity {
         if (mAuthTask != null) {
             return;
         }
-
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
@@ -145,16 +144,11 @@ public class LoginActivity extends AppCompatActivity {
             } else if (type == 2) {
                 //dang ky
                 showProgress(true);
-                DangKyTask task = new DangKyTask(username, password);
+                DangKyTask task = new DangKyTask(username, password); //thêm tài khoản vào table Account
                 task.execute((Void) null);
             }
         }
     }
-
-/*    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 2;
-    }*/
 
     /**
      * Shows the progress UI and hides the login form.
@@ -256,7 +250,6 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             if (success) {
                 moMainActivity(mUsername, mPassword, mMaKh);
             } else {
@@ -282,7 +275,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public class DangKyTask extends AsyncTask<Void, Void, Boolean> {
-
         private final String mUsername;
         private final String mPassword;
 
@@ -293,18 +285,89 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+                //dang ky tai khoan
+                String thamSo = "username=" + mUsername + "&password=" + mPassword;
+                URL url2 = new URL("http://tripletstore.somee.com/api/taikhoan/?" + thamSo);
+                HttpURLConnection httpURLConnection2 = (HttpURLConnection) url2.openConnection();
+                httpURLConnection2.setRequestMethod("POST");
+                httpURLConnection2.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                InputStreamReader isr2 = new InputStreamReader(httpURLConnection2.getInputStream(), "UTF-8");
+                BufferedReader br2 = new BufferedReader(isr2);
+                StringBuilder builder2 = new StringBuilder();
+                String line2;
+                while ((line2 = br2.readLine()) != null) {
+                    builder2.append(line2);
+                }
+                //neu ket qua tra ve True thi dang ky tai khoan thanh cong
+                boolean ketqua = builder2.toString().contains("true");
+                br2.close();
+                isr2.close();
+                return ketqua;
+            } catch (Exception e) {
+                Log.e("MYTAG", "doInBackground error: " + e.toString());
             }
+            return false;
+        }
 
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+            if (success) {
+                DangKyTask2 task2 = new DangKyTask2(mUsername); //thêm tài khoản vào table Khách hàng
+                task2.execute((Void) null);
+            } else {
+                showProgress(false);
+                Toast.makeText(getApplication(), "Username đã tồn tại!", Toast.LENGTH_LONG).show();
+                mUsernameView.setText("");
+                mPasswordView.setText("");
+                mUsernameView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+    class DangKyTask2 extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mUsername;
+        private int mMaKh = 000000;
+
+        DangKyTask2(String username) {
+            this.mUsername = username;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean) {
+                showProgress(false);
+                Toast.makeText(getApplication(), "Đăng ký tài khoản thành công!", Toast.LENGTH_LONG).show();
+                mUsernameView.setText(mUsername);
+                mPasswordView.setText("");
+                mPasswordView.requestFocus();
+            } else {
+                showProgress(false);
+                Toast.makeText(getApplication(), "Đăng ký tài khoản thất bại!", Toast.LENGTH_LONG).show();
+                mUsernameView.setText("");
+                mPasswordView.setText("");
+                mUsernameView.requestFocus();
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            boolean ketqua = false;
             try {
-                //lay danh sach tai khoan
-                ArrayList<TaiKhoan> listTaiKhoan = new ArrayList<>();
                 URL url = new URL("http://tripletstore.somee.com/api/taikhoan");
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
@@ -319,69 +382,41 @@ public class LoginActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(builder.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    TaiKhoan tk = new TaiKhoan();
-                    tk.setMakh(jsonObject.getInt("makh"));
-                    tk.setUsername(jsonObject.getString("username"));
-                    tk.setPassword(jsonObject.getString("password"));
-                    //them tai khoan vao danh sach
-                    listTaiKhoan.add(tk);
-                }
-                //kiem tra trong danh sach neu ton tai username thi khong cho dang ky
-                for (TaiKhoan tk2 : listTaiKhoan) {
-                    String username = tk2.getUsername();
-                    if (username.equals(mUsername)) {
-                        return false;
-                    } else {
-                        //dang ky tai khoan
-                        String thamSo = "username=" + mUsername + "&password=" + mPassword;
-                        URL url2 = new URL("http://tripletstore.somee.com/api/taikhoan/?" + thamSo);
-                        HttpURLConnection httpURLConnection2 = (HttpURLConnection) url2.openConnection();
-                        httpURLConnection2.setRequestMethod("POST");
-                        httpURLConnection2.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                        InputStreamReader isr2 = new InputStreamReader(httpURLConnection2.getInputStream(), "UTF-8");
-                        BufferedReader br2 = new BufferedReader(isr2);
-                        StringBuilder builder2 = new StringBuilder();
-                        String line2;
-                        while ((line2 = br2.readLine()) != null) {
-                            builder2.append(line2);
-                        }
-                        //neu ket qua tra ve True thi dang ky tai khoan thanh cong
-                        boolean ketqua = builder2.toString().contains("true");
-                        br.close();
-                        isr.close();
-                        return ketqua;
+                    String username = jsonObject.getString("username");
+                    if (mUsername.equals(username)) {
+                        mMaKh = jsonObject.getInt("makh");
+                        break;
                     }
                 }
+                br.close();
+                isr.close();
             } catch (Exception e) {
-                Log.e("MYTAG", "doInBackground error: " + e.toString());
+                e.printStackTrace();
+            }
+            if (mMaKh != 000000) { //them vao table KhachHang
+                try {
+                    URL url = new URL("http://tripletstore.somee.com/api/khachhang/?makh=" + mMaKh);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    InputStreamReader isr = new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8");
+                    BufferedReader br = new BufferedReader(isr);
+                    StringBuilder builder = new StringBuilder();
+                    String line = null;
+                    while ((line = br.readLine()) != null) {
+                        builder.append(line);
+                    }
+                    //neu ket qua tra ve True thi dang ky tai khoan thanh cong
+                    ketqua = builder.toString().contains("true");
+                    br.close();
+                    isr.close();
+                    return ketqua;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return false;
         }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                Toast.makeText(getApplication(), "Đăng ký tài khoản thành công!", Toast.LENGTH_LONG).show();
-                mUsernameView.setText(mUsername);
-                mPasswordView.setText("");
-                mPasswordView.requestFocus();
-            } else {
-                Toast.makeText(getApplication(), "Đăng ký tài khoản thất bại!", Toast.LENGTH_LONG).show();
-                mUsernameView.setText("");
-                mPasswordView.setText("");
-                mUsernameView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
-
 }
 
